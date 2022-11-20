@@ -1,7 +1,7 @@
 import {NestFactory} from "@nestjs/core";
 import {AppModule} from "./app.module";
 
-
+// test commit with jetBrains
 async function start() {
     const PORT = process.env.PORT || 1488;
     const app = await NestFactory.create(AppModule)

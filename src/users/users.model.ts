@@ -1,6 +1,5 @@
 import {Column, DataType, Model, Table} from "sequelize-typescript";
 
-
 interface UserCreationAttrs {
     email: string;
     password: string;
