@@ -20,6 +20,11 @@ export class UsersService {
         return users;
     }
 
+    async getUserByEmail(email: string) {
+        const user = await this.userRepository.findOne({where: {email}, include: {all: true}})
+        return user;
+    }
+
     async addTitle(dto: AddTitleDto) {
         const user = await this.userRepository.findByPk(dto.userId);
         const title = await this.titlesService.getTitleById(dto.titleId);

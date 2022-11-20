@@ -8,6 +8,7 @@ import {ConfigModule} from "@nestjs/config";
 import {Title} from "./titles/titles.model";
 import {User} from "./users/users.model";
 import {UserTitles} from "./titles/user-titles.model";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     controllers: [AppController],
@@ -28,6 +29,7 @@ import {UserTitles} from "./titles/user-titles.model";
         }),
         UsersModule,
         TitlesModule,
+        AuthModule,
     ]
 })
 export class AppModule {}
