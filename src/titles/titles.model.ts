@@ -1,12 +1,13 @@
-import {Column, DataType, Model, Table} from "sequelize-typescript";
-
+import {BelongsTo, BelongsToMany, Column, DataType, Model, Table} from "sequelize-typescript";
+import {User} from "../users/users.model";
+import {UserTitles} from "./user-titles.model";
 
 interface TitleCreationAttrs {
 
 }
 
 @Table({tableName: 'titles'})
-export class User extends Model<User, TitleCreationAttrs> {
+export class Title extends Model<Title, TitleCreationAttrs> {
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     id: number;
 
@@ -28,8 +29,8 @@ export class User extends Model<User, TitleCreationAttrs> {
     @Column({type: DataType.INTEGER, unique: true, allowNull: false})
     episodeCount: number;
 
-    @Column({type: DataType.STRING, unique: true, allowNull: false})
-    genre: string[];
+    @Column({type: DataType.ARRAY(DataType.STRING), unique: true, allowNull: false})
+    genre: Array<string>;
 
     @Column({type: DataType.STRING, unique: true, allowNull: false})
     datePublication: string;
@@ -43,13 +44,16 @@ export class User extends Model<User, TitleCreationAttrs> {
     @Column({type:DataType.STRING, unique: true, allowNull: false})
     episodeDuration: string;
 
-    @Column({type: DataType.STRING, unique: true, allowNull: true})
-    linked: string[];
+    @Column({type: DataType.ARRAY(DataType.STRING), unique: true, allowNull: true})
+    linked: Array<string>;
 
     @Column({type: DataType.DECIMAL, defaultValue: 0.0})
     rating: number;
 
     @Column({type: DataType.INTEGER, defaultValue: 0})
     ratingCount: number;
+
+    @BelongsToMany(() => User, () => UserTitles)
+    users: User[];
 
 }

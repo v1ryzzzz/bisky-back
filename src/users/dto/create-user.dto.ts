@@ -10,4 +10,6 @@ export class CreateUserDto {
     @Length(4, 16,
         {message: 'Длинна папроя должны быть не меньше 4 и не больше 16'})
     readonly password: string;
+
+    readonly login: string;
 }
