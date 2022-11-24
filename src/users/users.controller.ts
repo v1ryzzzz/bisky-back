@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {AddTitleDto} from "./dto/add-title.dto";
@@ -17,10 +17,23 @@ export class UsersController {
         return this.usersService.getAllUsers();
     }
 
+    @Get('/login/:login')
+    getUserByLogin(@Param('login') login: string ){
+        return this.usersService.getUserByLogin(login);
+    }
+
+    @Get('/email/:email')
+    getUserByEmail(@Param('email') email: string ){
+        return this.usersService.getUserByEmail(email);
+    }
+
+    @Get('/data/:email')
+    getUserData(@Param('email') email: string){
+        return this.usersService.getUserData(email)
+    }
+
     @Post('/addTitle')
     addTitle(@Body() dto: AddTitleDto){
         return this.usersService.addTitle(dto);
     }
-
-
 }

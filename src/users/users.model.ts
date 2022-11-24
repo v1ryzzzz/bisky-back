@@ -7,7 +7,7 @@ interface UserCreationAttrs {
     password: string;
 }
 
-@Table({tableName: 'users'})
+@Table({tableName: 'users', createdAt: false, updatedAt: false})
 export class User extends Model<User, UserCreationAttrs> {
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     id: number;
@@ -20,6 +20,12 @@ export class User extends Model<User, UserCreationAttrs> {
 
     @Column({type: DataType.STRING, allowNull: false})
     password: string;
+
+    @Column({type: DataType.STRING, unique: false, allowNull: true})
+    img: string;
+
+    @Column({type: DataType.STRING, unique: false, allowNull: true})
+    background: string;
 
     @BelongsToMany(() => Title, () => UserTitles)
     titles: Title[];

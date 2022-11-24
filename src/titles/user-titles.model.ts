@@ -18,4 +18,7 @@ export class UserTitles extends Model<UserTitles> {
 
     @Column({type: DataType.STRING})
     status: string;
+
+    @Column({type: DataType.INTEGER})
+    userRating: number;
 }

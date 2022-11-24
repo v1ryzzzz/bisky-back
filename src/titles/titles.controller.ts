@@ -11,9 +11,23 @@ export class TitlesController {
         return this.titlesService.creationTitle(dto);
     }
 
-    @Get('/:id')
+    @Get('/byID/:id')
     getById(@Param('id') id: number){
         return this.titlesService.getTitleById(id);
     }
 
+    @Get('/byName/:id')
+    getByName(@Param('id') name){
+        return this.titlesService.getTitleByName(name);
+    }
+
+    @Get('/all')
+    getAllTitle(){
+        return this.titlesService.getAllTitle();
+    }
+
+    @Get('/allShort')
+    getAllShortTitle(){
+        return this.titlesService.getAllShortTitle();
+    }
 }

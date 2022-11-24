@@ -1,9 +1,11 @@
 import {Injectable} from "@nestjs/common";
-
+const facts = require("../constants/facts.json")
 
 @Injectable()
 export class AppService{
-    Hello(){
-        return "Hello world!"
+
+    getFact(){
+        return facts[Math.floor(Math.random() * facts.length)]
     }
+
 }
