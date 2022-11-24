@@ -39,33 +39,35 @@ export class UsersService {
             userTitlesStatus.push(data)
         }
 
+        const countStatus = await this.getCountOfStatus(login);
+
         return {id: user.id, login: user.login, email: user.email,
             avatar: user.img, background: user.background,
             userShortTitlesLength: userShortTitles.length, userShortTitles: userShortTitles,
-            userTitlesStatus: userTitlesStatus};
+            userTitlesStatus: userTitlesStatus, countStatus: countStatus};
     }
 
-    async getCountOfStatus(id: number){
-        const user = await this.userRepository.findOne({where: {id}, include: {all: true}});
-        const countOfStatus = {Completed: 0, Dropped: 0, PlannedToWatch: 0, Watching: 0}
+    async getCountOfStatus(login: string){
+        const user = await this.userRepository.findOne({where: {login}, include: {all: true}});
+        const countArray = [0, 0, 0, 0]
 
         for (const el of user.titles) {
             const data = await this.getTitleStatusAndRating(user.id, el.id);
             switch (data.status){
                 case ("Completed"): {
-                    countOfStatus.Completed++;
+                    countArray[0]++;
                     break;
                 }
                 case ("Dropped"): {
-                    countOfStatus.Dropped++;
+                    countArray[1]++;
                     break;
                 }
                 case ("Planned to watch"): {
-                    countOfStatus.PlannedToWatch++;
+                    countArray[2]++;
                     break;
                 }
                 case ("Watching"): {
-                    countOfStatus.Watching++;
+                    countArray[3]++;
                     break;
                 }
                 default: {
@@ -74,7 +76,7 @@ export class UsersService {
                 }
             }
         }
-        return countOfStatus;
+        return countArray;
 
     }
 

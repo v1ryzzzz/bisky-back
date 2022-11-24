@@ -42,9 +42,9 @@ export class UsersController {
 
     }
 
-    @Get('CountOfStatus/:userId')
-    getCountOfStatus(@Param('userId') userId: number){
-        return this.usersService.getCountOfStatus(userId);
+    @Get('CountOfStatus/:login')
+    getCountOfStatus(@Param('login') login: string){
+        return this.usersService.getCountOfStatus(login);
     }
 
     @Post('/addTitle')
