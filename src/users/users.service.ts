@@ -27,15 +27,28 @@ export class UsersService {
         return user;
     }
 
-    async getUserData(email: string) {
-        const user = await this.userRepository.findOne({where: {email}, include: {all: true}});
+    async getUserData(login: string) {
+        const user = await this.userRepository.findOne({where: {login}, include: {all: true}});
         const userShortTitles = [];
+        const userTitlesStatus = [];
 
-        user.titles.forEach((el) => {
+        for (const el of user.titles) {
             userShortTitles.push({id: el.id, name: el.name, img: el.img})
-        })
+            const data = await this.getTitleStatusAndRating(user.id, el.id)
+            console.log(data)
+            userTitlesStatus.push(data)
+        }
 
-        return [user.id, user.login, user.email, user.img, user.background, userShortTitles.length, userShortTitles];
+        return {id: user.id, login: user.login, email: user.email,
+            avatar: user.img, background: user.background,
+            userShortTitlesLength: userShortTitles.length, userShortTitles: userShortTitles,
+            userTitlesStatus: userTitlesStatus};
+    }
+    async getTitleStatusAndRating(userId: number, titleId: number) {
+        const userTitle = await this.userTitlesRepository.findOne({where: {titleId: titleId, userId: userId}})
+        const Info = {status: userTitle.status, rating: userTitle.userRating};
+        console.log(Info)
+        return Info;
     }
 
     async getUserByLogin(login: string) {
@@ -54,10 +67,11 @@ export class UsersService {
     async addTitle(dto: AddTitleDto) {
         const user = await this.userRepository.findByPk(dto.userId);
         const title = await this.titlesService.getTitleById(dto.titleId);
-        //const userTitle = await this.userTitlesRepository.findByPk(dto.titleId)
         if (title && user) {
             await user.$add('title', title.id);
-            //await userTitle.$set('status', dto.status)
+            const userTitle = await this.userTitlesRepository.findOne({where: {titleId: dto.titleId, userId: dto.userId}})
+            await userTitle.update({status: dto.status})
+            await userTitle.update({userRating: dto.userRating})
             return dto;
         }
     }

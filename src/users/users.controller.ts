@@ -27,9 +27,9 @@ export class UsersController {
         return this.usersService.getUserByEmail(email);
     }
 
-    @Get('/data/:email')
-    getUserData(@Param('email') email: string){
-        return this.usersService.getUserData(email)
+    @Get('/data/:login')
+    getUserData(@Param('login') login: string){
+        return this.usersService.getUserData(login)
     }
 
     @Post('/addTitle')
