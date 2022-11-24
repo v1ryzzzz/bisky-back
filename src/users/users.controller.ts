@@ -42,6 +42,11 @@ export class UsersController {
 
     }
 
+    @Get('CountOfStatus/:userId')
+    getCountOfStatus(@Param('userId') userId: number){
+        return this.usersService.getCountOfStatus(userId);
+    }
+
     @Post('/addTitle')
     addTitle(@Body() dto: AddTitleDto){
         return this.usersService.addTitle(dto);

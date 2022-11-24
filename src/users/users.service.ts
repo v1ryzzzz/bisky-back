@@ -36,7 +36,6 @@ export class UsersService {
         for (const el of user.titles) {
             userShortTitles.push({id: el.id, name: el.name, img: el.img})
             const data = await this.getTitleStatusAndRating(user.id, el.id)
-            console.log(data)
             userTitlesStatus.push(data)
         }
 
@@ -44,6 +43,39 @@ export class UsersService {
             avatar: user.img, background: user.background,
             userShortTitlesLength: userShortTitles.length, userShortTitles: userShortTitles,
             userTitlesStatus: userTitlesStatus};
+    }
+
+    async getCountOfStatus(id: number){
+        const user = await this.userRepository.findOne({where: {id}, include: {all: true}});
+        const countOfStatus = {Completed: 0, Dropped: 0, PlannedToWatch: 0, Watching: 0}
+
+        for (const el of user.titles) {
+            const data = await this.getTitleStatusAndRating(user.id, el.id);
+            switch (data.status){
+                case ("Completed"): {
+                    countOfStatus.Completed++;
+                    break;
+                }
+                case ("Dropped"): {
+                    countOfStatus.Dropped++;
+                    break;
+                }
+                case ("Planned to watch"): {
+                    countOfStatus.PlannedToWatch++;
+                    break;
+                }
+                case ("Watching"): {
+                    countOfStatus.Watching++;
+                    break;
+                }
+                default: {
+                    throw "Error! I don't know this status"
+                    break
+                }
+            }
+        }
+        return countOfStatus;
+
     }
 
     async getTitleStatusAndRating(userId: number, titleId: number) {
@@ -70,8 +102,6 @@ export class UsersService {
         }
         return "Profile data changed"
     }
-
-
 
     async addTitle(dto: AddTitleDto) {
         const user = await this.userRepository.findByPk(dto.userId);
