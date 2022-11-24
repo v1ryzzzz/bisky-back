@@ -2,6 +2,7 @@ import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {AddTitleDto} from "./dto/add-title.dto";
+import {changeProfileDataDto} from "./dto/changeProfileData.dto";
 
 @Controller('users')
 export class UsersController {
@@ -36,4 +37,10 @@ export class UsersController {
     addTitle(@Body() dto: AddTitleDto){
         return this.usersService.addTitle(dto);
     }
+
+    @Post('/changeProfileData')
+    changeProfileData(@Body() dto: changeProfileDataDto){
+        return this.usersService.changeProfileData(dto);
+    }
+
 }

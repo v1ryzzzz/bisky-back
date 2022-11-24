@@ -5,6 +5,7 @@ import {CreateUserDto} from "./dto/create-user.dto";
 import {AddTitleDto} from "./dto/add-title.dto";
 import {TitlesService} from "../titles/titles.service";
 import {UserTitles} from "../titles/user-titles.model";
+import {changeProfileDataDto} from "./dto/changeProfileData.dto";
 
 @Injectable()
 export class UsersService {
@@ -44,6 +45,7 @@ export class UsersService {
             userShortTitlesLength: userShortTitles.length, userShortTitles: userShortTitles,
             userTitlesStatus: userTitlesStatus};
     }
+
     async getTitleStatusAndRating(userId: number, titleId: number) {
         const userTitle = await this.userTitlesRepository.findOne({where: {titleId: titleId, userId: userId}})
         const Info = {status: userTitle.status, rating: userTitle.userRating};
@@ -56,13 +58,21 @@ export class UsersService {
         return user;
     }
 
-    async addImg(email: string) {
-
+    async changeProfileData(dto: changeProfileDataDto){
+        const user = await this.userRepository.findByPk(dto.id)
+        if(dto.newLogin != '') {
+            await user.update({login: dto.newLogin})
+        }
+        if(dto.newImg != '') {
+            await user.update({img: dto.newImg})
+        }
+        if(dto.newBackground != '') {
+            await user.update({background: dto.newBackground})
+        }
+        return "Profile data changed"
     }
 
-    async addBackground(email: string) {
 
-    }
 
     async addTitle(dto: AddTitleDto) {
         const user = await this.userRepository.findByPk(dto.userId);
