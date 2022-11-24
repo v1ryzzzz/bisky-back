@@ -49,7 +49,6 @@ export class UsersService {
     async getTitleStatusAndRating(userId: number, titleId: number) {
         const userTitle = await this.userTitlesRepository.findOne({where: {titleId: titleId, userId: userId}})
         const Info = {status: userTitle.status, rating: userTitle.userRating};
-        console.log(Info)
         return Info;
     }
 
@@ -85,4 +84,5 @@ export class UsersService {
             return dto;
         }
     }
+
 }

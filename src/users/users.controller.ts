@@ -3,6 +3,7 @@ import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {AddTitleDto} from "./dto/add-title.dto";
 import {changeProfileDataDto} from "./dto/changeProfileData.dto";
+import {statusAndRatingDto} from "./dto/status-rating.dto";
 
 @Controller('users')
 export class UsersController {
@@ -12,6 +13,7 @@ export class UsersController {
     create(@Body() userDto: CreateUserDto) {
         return this.usersService.createUser(userDto);
     }
+
 
     @Get()
     getAll() {
@@ -33,6 +35,12 @@ export class UsersController {
         return this.usersService.getUserData(login)
     }
 
+    @Get('/StatusAnaRating')
+    getTitleStatusAndRating(@Body() dto: statusAndRatingDto){
+        return this.usersService.getTitleStatusAndRating(dto.userId, dto.titleId);
+
+    }
+
     @Post('/addTitle')
     addTitle(@Body() dto: AddTitleDto){
         return this.usersService.addTitle(dto);
@@ -42,5 +50,6 @@ export class UsersController {
     changeProfileData(@Body() dto: changeProfileDataDto){
         return this.usersService.changeProfileData(dto);
     }
+
 
 }

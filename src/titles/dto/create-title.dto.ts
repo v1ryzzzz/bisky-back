@@ -3,7 +3,7 @@ import {IsEmail, IsNumber, IsString, Length} from "class-validator";
 export class CreateTitleDto {
 
     @IsString({message: 'Должно быть строкой'})
-    readonly name: string;
+    readonly name: Array<string>;
 
     @IsString({message: 'Должно быть строкой'})
     readonly description: string;
