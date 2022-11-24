@@ -79,8 +79,12 @@ export class UsersService {
         if (title && user) {
             await user.$add('title', title.id);
             const userTitle = await this.userTitlesRepository.findOne({where: {titleId: dto.titleId, userId: dto.userId}})
-            await userTitle.update({status: dto.status})
-            await userTitle.update({userRating: dto.userRating})
+            if(dto.status == "Remove"){
+                await userTitle.destroy()
+            } else {
+                await userTitle.update({status: dto.status})
+                await userTitle.update({userRating: dto.userRating})
+            }
             return dto;
         }
     }
