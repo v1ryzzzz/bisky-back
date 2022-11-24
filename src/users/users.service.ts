@@ -57,7 +57,7 @@ export class UsersService {
         //const userTitle = await this.userTitlesRepository.findByPk(dto.titleId)
         if (title && user) {
             await user.$add('title', title.id);
-           // await userTitle.$set('status', dto.status)
+            //await userTitle.$set('status', dto.status)
             return dto;
         }
     }
