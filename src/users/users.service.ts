@@ -47,7 +47,7 @@ export class UsersService {
     }
 
     async getTitleStatusAndRating(userId: number, titleId: number) {
-        const userTitle = await this.userTitlesRepository.findOne({where: {titleId: titleId, userId: userId}})
+        const userTitle = await this.userTitlesRepository.findOne({where: {userId: userId, titleId: titleId}})
         const Info = {status: userTitle.status, rating: userTitle.userRating};
         return Info;
     }

@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {AddTitleDto} from "./dto/add-title.dto";
@@ -35,9 +35,10 @@ export class UsersController {
         return this.usersService.getUserData(login)
     }
 
-    @Get('/StatusAnaRating')
-    getTitleStatusAndRating(@Body() dto: statusAndRatingDto){
-        return this.usersService.getTitleStatusAndRating(dto.userId, dto.titleId);
+    @Get('/StatusAndRating/:userId/:titleId')
+    getTitleStatusAndRating(@Param('userId') userId,
+                            @Param('titleId') titleId){
+        return this.usersService.getTitleStatusAndRating(userId, titleId);
 
     }
 

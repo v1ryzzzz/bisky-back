@@ -13,7 +13,7 @@ export class AuthService {
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUserByEmail(userDto)
-        return [await this.generateToken(user), user.login, user.email]
+        return [await this.generateToken(user), user.login, user.email, user.id]
     }
 
     async registration(userDto: CreateUserDto) {
